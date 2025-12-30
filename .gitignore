@@ -1,0 +1,19 @@
+# 1. 忽略编译生成的可执行文件
+parse_exec
+parse_exec.exe
+
+# 2. 忽略 GCC 编译生成的 .o 目标文件
+*.o
+
+# 3. 忽略临时文件/日志文件
+*.tmp
+*.log
+
+# 4. 忽略编辑器临时文件（vim .swp 文件）
+*.swp
+
+# 5. 新增：精准忽略所有名为 tmpfile 的普通文件（核心配置）
+tmpfile
+
+# 可选：若需要忽略 tmpfile 目录，添加以下配置（二选一或同时添加）
+# tmpfile/
