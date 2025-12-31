@@ -26,5 +26,11 @@ ParseStatus parse_key_value(const char *input_str, KeyValuePair *result);
 
 // 4. 辅助函数声明：释放 KeyValuePair 中的动态内存，防止内存泄漏
 void free_key_value(KeyValuePair *kv_pair);
+// 新增：代码行统计函数声明
+// 功能：统计指定文件的有效代码行数（排除纯空行）
+// 参数：file_path - 目标文件路径（如 "main.c"）；line_count - 输出参数，存储统计结果
+// 返回值：ParseStatus - 统计状态（成功/文件不存在/参数无效等）
+ParseStatus count_file_lines(const char *file_path, int *line_count);
 
 #endif // PARSER_H  // 头文件保护结束
+
