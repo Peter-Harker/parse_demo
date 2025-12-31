@@ -67,3 +67,41 @@ void free_key_value(KeyValuePair *kv_pair) {
         kv_pair->value = NULL;  // 置空，防止野指针
     }
 }
+// 新增：代码行统计函数实现
+ParseStatus count_file_lines(const char *file_path, int *line_count) {
+    // 1. 合法性校验：参数为空直接返回无效
+    if (file_path == NULL || line_count == NULL) {
+        return PARSE_INVALID;
+    }
+
+    // 2. 初始化统计结果为0
+    *line_count = 0;
+
+    // 3. 只读模式打开文件，判断是否打开成功
+    FILE *fp = fopen(file_path, "r");
+    if (fp == NULL) {
+        return PARSE_INVALID; // 文件不存在/权限问题，返回无效
+    }
+
+    // 4. 逐行读取文件，过滤空行并统计
+    char buffer[1024]; // 存储每行内容，支持最长1023个字符
+    while (fgets(buffer, sizeof(buffer), fp) != NULL) {
+        // 去除行首空白字符（空格、制表符、换行符、回车符）
+        char *trimmed = buffer;
+        while (*trimmed == ' ' || *trimmed == '\t' || *trimmed == '\n' || *trimmed == '\r') {
+            trimmed++;
+        }
+        // 去除空白后为空，视为纯空行，不统计
+        if (*trimmed == '\0') {
+            continue;
+        }
+        // 有效行，计数+1
+        (*line_count)++;
+    }
+
+    // 5. 关闭文件，释放资源（避免内存泄漏）
+    fclose(fp);
+
+    // 6. 统计成功，返回成功状态
+    return PARSE_SUCCESS;
+}
